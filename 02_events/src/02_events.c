@@ -43,7 +43,7 @@ int main(void) {
 		while (quit != 0) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT)
-					quit = 1;
+					quit = 0;
 				else if (event.type == SDL_KEYDOWN) {
 					switch (event.key.keysym.sym) {
 					case SDLK_UP:
@@ -59,10 +59,11 @@ int main(void) {
 						greylevel = 0xFF;
 						break;
 					case SDLK_ESCAPE:
-						quit = 1;
+						quit = 0;
 						break;
 					}
 				}
+				printf("unknown event\n");
 			}
 			updateColor();
 		}
