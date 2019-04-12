@@ -10,13 +10,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <SDL2/SDL.h>
 
 // Размеры окна для вывода
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-int greylevel = 0x0F;
+uint8_t greylevel = 0x0F;
 
 // Функция для инициализации библиотеки и создания окна
 int initSDL();
@@ -29,6 +30,8 @@ void updateColor();
 SDL_Window* window = NULL;
 // Глобальная переменная, соответствующая поверхности, которую мы выводим в окне
 SDL_Surface* screenSurface = NULL;
+// Глобальная переменная, соответствующая поверхности, на которой мы рисуем
+SDL_Surface* drawSurface = NULL;
 
 int main(void) {
 	// Инициализируем библиотеку SDL
@@ -47,23 +50,22 @@ int main(void) {
 				else if (event.type == SDL_KEYDOWN) {
 					switch (event.key.keysym.sym) {
 					case SDLK_UP:
-						if (greylevel < 0xFF) greylevel = greylevel + 10;
+						if (greylevel < 0xFF) greylevel = greylevel + 1;
 						break;
 					case SDLK_DOWN:
-						if (greylevel > 0x0) greylevel = greylevel - 10;
+						if (greylevel > 0x0) greylevel = greylevel - 1;
 						break;
 					case SDLK_LEFT:
-						greylevel = 0x0;
+						greylevel = 0;
 						break;
 					case SDLK_RIGHT:
-						greylevel = 0xFF;
+						greylevel = 255;
 						break;
 					case SDLK_ESCAPE:
 						quit = 0;
 						break;
 					}
 				}
-				printf("unknown event\n");
 			}
 			updateColor();
 		}
@@ -91,6 +93,8 @@ int initSDL() {
 		} else {
 			// Получаем поверхность для рисования
 			screenSurface = SDL_GetWindowSurface(window);
+			SDL_FillRect(screenSurface, NULL,
+					SDL_MapRGB(screenSurface->format, 255, 255, 255));
 		}
 	}
 	return success;
@@ -106,6 +110,6 @@ void closeSDL() {
 void updateColor() {
 	// обновляем цвет в соответствии с текущим показателем серости
 	SDL_FillRect(screenSurface, NULL,
-			SDL_MapRGB(screenSurface->format, greylevel, greylevel, greylevel));
+			SDL_MapRGB(screenSurface->format, 200, 200, 200));
 	SDL_UpdateWindowSurface(window);
 }
