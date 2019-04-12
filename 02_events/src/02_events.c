@@ -19,30 +19,59 @@ const int SCREEN_HEIGHT = 480;
 int greylevel = 0x0F;
 
 // Функция для инициализации библиотеки и создания окна
-int init();
+int initSDL();
 // функция для проведения завершения работы библиотеки и освобождения всех ресурсов
-void close();
+void closeSDL();
 // изменение цвета окна
 void updateColor();
 
 // Глобальная переменная, соответствующая окну программы
-SDL_Window* gWindow = NULL;
+SDL_Window* window = NULL;
 // Глобальная переменная, соответствующая поверхности, которую мы выводим в окне
-SDL_Surface* gScreenSurface = NULL;
+SDL_Surface* screenSurface = NULL;
 
 int main(void) {
 	// Инициализируем библиотеку SDL
-	if (init() > 1) {
+	if (initSDL() > 1) {
 		printf("Error in initialization.\n");
 	} else {
-		//main loop
-	}
 
-	close();
+		updateColor();
+
+		int quit = 1;
+		SDL_Event event;
+		while (quit != 0) {
+			while (SDL_PollEvent(&event) != 0) {
+				if (event.type == SDL_QUIT)
+					quit = 1;
+				else if (event.type == SDL_KEYDOWN) {
+					switch (event.key.keysym.sym) {
+					case SDLK_UP:
+						if (greylevel < 0xFF) greylevel = greylevel + 10;
+						break;
+					case SDLK_DOWN:
+						if (greylevel > 0x0) greylevel = greylevel - 10;
+						break;
+					case SDLK_LEFT:
+						greylevel = 0x0;
+						break;
+					case SDLK_RIGHT:
+						greylevel = 0xFF;
+						break;
+					case SDLK_ESCAPE:
+						quit = 1;
+						break;
+					}
+				}
+			}
+			updateColor();
+		}
+	}
+	closeSDL();
 	return EXIT_SUCCESS;
 }
 
-int init() {
+int initSDL() {
 	int success = 1;
 	// Инициализируем библиотеку SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -61,19 +90,21 @@ int init() {
 		} else {
 			// Получаем поверхность для рисования
 			screenSurface = SDL_GetWindowSurface(window);
-			// Заполняем её белым цветом
-			SDL_FillRect(screenSurface, NULL,
-					SDL_MapRGB(screenSurface->format, 0x05, 0x05, 0x05));
-			// Обновляем (выводим содержимое поверхности в окно)
-			SDL_UpdateWindowSurface(window);
 		}
 	}
 	return success;
 }
 
-void close() {
+void closeSDL() {
 	// Закрываем окно и освобождаем все выделенные ему ресурсы
 	SDL_DestroyWindow(window);
 	// Завершаем работу библиотеки и освобождаем все выделенные ей ресурсы
 	SDL_Quit();
+}
+
+void updateColor() {
+	// обновляем цвет в соответствии с текущим показателем серости
+	SDL_FillRect(screenSurface, NULL,
+			SDL_MapRGB(screenSurface->format, greylevel, greylevel, greylevel));
+	SDL_UpdateWindowSurface(window);
 }
