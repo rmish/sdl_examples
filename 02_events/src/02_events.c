@@ -4,7 +4,14 @@
  Author      : Riapolov Mikhail
  Version     :
  Copyright   : Use at your own risk
- Description : Events Hahdling
+ Description : Работа с событиями. Используется основной цикл, завершающийся
+               при событии выхода из приложения (получается от ОС) или нажатии
+               ESC. Кнопки влево-вправо заливают окно белым и чёрным цветом
+               соответсвенно, вверх и вниз делают окно светлее или темнее и
+               позволяют залить его различными оттенками серого цвета.
+               Из функции main вынесена инициализация программы (в данном
+               случае только инициализация бибилиотеки SDL) и завершение работы
+               (освобождение ресурсов и работы бибилиотеки SDL).
  ============================================================================
  */
 
@@ -50,10 +57,10 @@ int main(void) {
 				else if (event.type == SDL_KEYDOWN) {
 					switch (event.key.keysym.sym) {
 					case SDLK_UP:
-						if (greylevel < 0xFF) greylevel = greylevel + 1;
+						if (greylevel < 0xFF) greylevel = greylevel + 10;
 						break;
 					case SDLK_DOWN:
-						if (greylevel > 0x0) greylevel = greylevel - 1;
+						if (greylevel > 0x0) greylevel = greylevel - 10;
 						break;
 					case SDLK_LEFT:
 						greylevel = 0;
@@ -110,6 +117,6 @@ void closeSDL() {
 void updateColor() {
 	// обновляем цвет в соответствии с текущим показателем серости
 	SDL_FillRect(screenSurface, NULL,
-			SDL_MapRGB(screenSurface->format, 200, 200, 200));
+			SDL_MapRGB(screenSurface->format, greylevel,  greylevel,  greylevel));
 	SDL_UpdateWindowSurface(window);
 }
