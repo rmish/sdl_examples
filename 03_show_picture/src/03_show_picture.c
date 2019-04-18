@@ -17,7 +17,7 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-char image[] = "/home/MAIN/rmp/temp/leaves.jpg";
+static const char image[] = "resources/404cat.jpg";
 
 // Функция для инициализации библиотеки и создания окна
 int initSDL();
@@ -42,11 +42,11 @@ int main(void) {
 		// Загружаем картирнку из файла
 		SDL_Surface* img = loadImage(image);
 		// выводим её на экран
-		SDL_BlitSurface(optimizedSurface, NULL, screenSurface, NULL);
+		SDL_BlitSurface(img, NULL, screenSurface, NULL);
 		// Обновляем (выводим содержимое поверхности в окно)
 		SDL_UpdateWindowSurface(window);
 		// Ждём 5 секунд
-		SDL_Delay(2000);
+		SDL_Delay(5000);
 	}
 	closeSDL();
 	return EXIT_SUCCESS;
@@ -69,18 +69,18 @@ int initSDL() {
 					SDL_GetError());
 			success = 0;
 		} else {
+			// Инициализируем библиотеку загрузки изображений (только для JPG)
+			int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+			if (!(IMG_Init(imgFlags) & imgFlags)) {
+				printf("SDL_image could not initialize! SDL_image Error: %s\n",
+				IMG_GetError());
+				success = 0;
+			}
 			// Получаем поверхность для рисования
 			screenSurface = SDL_GetWindowSurface(window);
 			SDL_FillRect(screenSurface, NULL,
 					SDL_MapRGB(screenSurface->format, 0, 0, 0));
 		}
-	}
-	// Инициализируем библиотеку загрузки изображений (только для JPG)
-	int imgFlags = IMG_INIT_JPG;
-	if (!(IMG_Init(imgFlags) & imgFlags)) {
-		printf("SDL_image could not initialize! SDL_image Error: %s\n",
-		IMG_GetError());
-		success = 0;
 	}
 	return success;
 }
@@ -93,18 +93,20 @@ void closeSDL() {
 }
 
 SDL_Surface* loadImage(char imagePath[]) {
+	printf("%s\n",imagePath);
 	SDL_Surface* optimizedSurface;
 	// Загружаем изображение
 	SDL_Surface* loadedSurface = IMG_Load(imagePath);
 	if (loadedSurface == NULL) {
-		printf("Unable to load image %s! SDL_image Error: %s\n", image,
+		printf("Unable to load image %s! SDL_image Error: %s\n", imagePath,
 		IMG_GetError());
 	} else {
 		// Если успешно загрузили, преобразуем загруженную поверхность в формат экранной
+		// Если этого не сделать, то при каждом выводе будет проводится преобразование
 		optimizedSurface = SDL_ConvertSurface(loadedSurface,
 				screenSurface->format, NULL);
 		if (optimizedSurface == NULL) {
-			printf("Unable to optimize image %s! SDL Error: %s\n", image,
+			printf("Unable to optimize image %s! SDL Error: %s\n", imagePath,
 					SDL_GetError());
 		} else
 			// если успешно, возвращаем указатель на поверхность с изображенеим
