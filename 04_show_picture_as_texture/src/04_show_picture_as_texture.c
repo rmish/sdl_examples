@@ -1,13 +1,16 @@
 /*
  ============================================================================
- Name        : 03_show_picture.c
+ Name        : 04_show_picture_as_texture.c
  Author      : Riapolov Mikhail
  Version     :
  Copyright   : Use at your own risk
  Description : Загрузка и вывод картинки на экран. Использование дополнительной
                библиотеки SDL_imgae для загрузки jpg файла. При выводе картинки
                на экран для хранения изображения использвуется структура
-               SDL_surface
+               SDL_texture. В отличии от предыдущего примера с SDL_surface
+               использование текстур позволяет применить для вывода на экран
+               апаратное скорение средствами видеокарты. В остальном функционал
+               этого примера аналогичен 03_show_picture
  ============================================================================
  */
 
@@ -27,14 +30,14 @@ int initSDL();
 // функция для проведения завершения работы библиотеки и освобождения всех ресурсов
 void closeSDL();
 // загрузка изображения
-SDL_Surface* loadImage(char imagePath[]);
+SDL_Texture* loadImage(char imagePath[]);
 
 // Указатель на структуру, описывающую окно для вывода графики
 SDL_Window* window = NULL;
+// Указательн на структуру, описывающую механизм отрисовки в окне с применением аппаратного ускорения
+SDL_Renderer* renderer = NULL;
 // указатель на поверхность (surface), на которой мы будем рисовать и выводить её в окне
 SDL_Surface* screenSurface = NULL;
-// указатель на структуру с загруженной картинкой после подготовки её к выводу
-SDL_Surface* optimizedSurface = NULL;
 
 int main(void) {
 
@@ -43,15 +46,16 @@ int main(void) {
 		printf("Error in initialization.\n");
 	} else {
 		// Загружаем картирнку из файла
-		SDL_Surface* img = loadImage(image);
-		// выводим её на экран. Указываем изображение для вывода,
-		// область внутри изображения, которая будет скопирована на экран,
-		// поверхность, ассоциированную с нашим окном вывода и область
-		// этой повержности для вывода. По умолчанию всё изображение в точку
-		// с кооринатами 0,0 и своим реальным размером.
-		SDL_BlitSurface(img, NULL, screenSurface, NULL);
-		// Обновляем (выводим содержимое поверхности в окно)
-		SDL_UpdateWindowSurface(window);
+		SDL_Texture* img = loadImage(image);
+		// Очищаем буфер рисования
+		SDL_RenderClear(renderer);
+		// выводим картинку на экран. Указываем структуру с описанием механихма
+		// отрисовки, текстуру, область текстуры для вывода и область, в которую
+		// текстура будет скопирована (по умолчанию - вся текстура, растянутая на
+		// всю доступную область)
+		SDL_RenderCopy(renderer,img, NULL, NULL);
+		// Выводим буфер на экран
+		SDL_RenderPresent(renderer);
 		// Ждём 5 секунд
 		SDL_Delay(5000);
 	}
@@ -84,9 +88,17 @@ int initSDL() {
 				success = 0;
 			}
 			// Получаем поверхность для рисования
-			screenSurface = SDL_GetWindowSurface(window);
-			SDL_FillRect(screenSurface, NULL,
-					SDL_MapRGB(screenSurface->format, 0, 0, 0));
+			renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+			if ( renderer == NULL ) {
+				// выводим ошибку, если создать окно не удалось
+				printf("Renderer could not be created! SDL_Error: %s\n",
+						SDL_GetError());
+				success = 0;
+			}
+			else {
+				// Задаём цвет отрисовки по умолчанию - белый
+				SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+			}
 		}
 	}
 	return success;
@@ -99,9 +111,9 @@ void closeSDL() {
 	SDL_Quit();
 }
 
-SDL_Surface* loadImage(char imagePath[]) {
+SDL_Texture* loadImage(char imagePath[]) {
 	printf("%s\n",imagePath);
-	SDL_Surface* optimizedSurface;
+	SDL_Texture *newTexture;
 	// Загружаем изображение
 	SDL_Surface* loadedSurface = IMG_Load(imagePath);
 	if (loadedSurface == NULL) {
@@ -110,14 +122,13 @@ SDL_Surface* loadImage(char imagePath[]) {
 	} else {
 		// Если успешно загрузили, преобразуем загруженную поверхность в формат экранной
 		// Если этого не сделать, то при каждом выводе будет проводится преобразование
-		optimizedSurface = SDL_ConvertSurface(loadedSurface,
-				screenSurface->format, NULL);
-		if (optimizedSurface == NULL) {
-			printf("Unable to optimize image %s! SDL Error: %s\n", imagePath,
+		 newTexture = SDL_CreateTextureFromSurface(renderer,loadedSurface);
+		if (newTexture == NULL) {
+			printf("Unable to load texture %s! SDL Error: %s\n", imagePath,
 					SDL_GetError());
 		} else
 			// если успешно, возвращаем указатель на поверхность с изображенеим
-			return optimizedSurface;
+			return newTexture;
 		// Удаляем загруженную поверхность
 		SDL_FreeSurface(loadedSurface);
 	}
