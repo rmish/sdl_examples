@@ -49,6 +49,8 @@ int main(void) {
 		int obj_h, obj_w;
 		SDL_QueryTexture(obj,NULL,NULL,&obj_w,&obj_h);
 		SDL_Rect obj_size;
+		obj_size.x=0;
+		obj_size.y=0;
 		obj_size.h=obj_h;
 		obj_size.w=obj_w;
 		// Очищаем буфер рисования
@@ -58,7 +60,7 @@ int main(void) {
 		// текстура будет скопирована (по умолчанию - вся текстура, растянутая на
 		// всю доступную область)
 		SDL_RenderCopy(renderer,img, NULL, NULL);
-		SDL_RenderCopy(renderer,obj, NULL, obj_size);
+		SDL_RenderCopy(renderer,obj, NULL, &obj_size);
 		// Выводим буфер на экран
 		SDL_RenderPresent(renderer);
 		// Ждём 5 секунд
