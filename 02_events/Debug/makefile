@@ -23,19 +23,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: 01_hello_sdl
+all: 02_events
 
 # Tool invocations
-01_hello_sdl: $(OBJS) $(USER_OBJS)
+02_events: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross GCC Linker'
-	gcc  -o "01_hello_sdl" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"C:\milandr_eclipse\SDL2-2.0.9\x86_64-w64-mingw32\lib" -o "02_events" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) 01_hello_sdl
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) 02_events
 	-@echo ' '
 
 .PHONY: all clean dependents
