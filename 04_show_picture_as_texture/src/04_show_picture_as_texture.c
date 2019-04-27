@@ -16,8 +16,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#if defined(__MINGW32__)
+#include <SDL.h>
+#include <SDL_image.h>
+#else
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#endif
 
 // Размеры окна для вывода
 const int SCREEN_WIDTH = 640;
@@ -39,7 +44,7 @@ SDL_Renderer* renderer = NULL;
 // указатель на поверхность (surface), на которой мы будем рисовать и выводить её в окне
 SDL_Surface* screenSurface = NULL;
 
-int main(void) {
+int main(int argc,char *argv[]) {
 
 	// Инициализируем библиотеку SDL
 	if (initSDL() > 1) {
