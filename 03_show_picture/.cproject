@@ -13,6 +13,12 @@
                     					
                     <extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
                     					
+                    <extension id="org.eclipse.cdt.core.Cygwin_PE" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
+                    <extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
+                    <extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
                     <extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
                     					
                     <extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -31,7 +37,7 @@
                         						
                         <toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1412858" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
                             							
-                            <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.2042835794" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
+                            <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE;org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.mingw.base.2042835794" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
                             							
                             <builder buildPath="${workspace_loc:/03_show_picture}/Debug" id="cdt.managedbuild.tool.gnu.builder.mingw.base.1643063997" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
                             							
@@ -125,6 +131,12 @@
                     					
                     <extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
                     					
+                    <extension id="org.eclipse.cdt.core.Cygwin_PE" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
+                    <extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
+                    <extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
                     <extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
                     					
                     <extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -147,7 +159,7 @@
                         						
                         <toolChain id="cdt.managedbuild.toolchain.gnu.cross.exe.release.1214137192" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.release">
                             							
-                            <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1903981004" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
+                            <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE;org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1903981004" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
                             							
                             <builder buildPath="${workspace_loc:/02_show_picture}/Release" id="cdt.managedbuild.builder.gnu.cross.703225204" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
                             							

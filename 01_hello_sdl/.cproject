@@ -13,6 +13,12 @@
                     					
                     <extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
                     					
+                    <extension id="org.eclipse.cdt.core.Cygwin_PE" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
+                    <extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
+                    <extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
                     <extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
                     					
                     <extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -31,7 +37,7 @@
                         						
                         <toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1493416009" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
                             							
-                            <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1808684151" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
+                            <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE;org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.mingw.base.1808684151" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
                             							
                             <builder buildPath="${workspace_loc:/01_hello_sdl}/Debug" id="cdt.managedbuild.tool.gnu.builder.mingw.base.1896908139" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
                             							
@@ -79,7 +85,7 @@
                                     								
                                 </option>
                                 								
-                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.link.option.paths.30545276" superClass="gnu.c.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
+                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.link.option.paths.30545276" name="Library search path (-L)" superClass="gnu.c.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
                                     									
                                     <listOptionValue builtIn="false" value="&quot;C:\milandr_eclipse\SDL2-2.0.9\x86_64-w64-mingw32\lib&quot;"/>
                                     								
@@ -125,6 +131,12 @@
                     					
                     <extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
                     					
+                    <extension id="org.eclipse.cdt.core.Cygwin_PE" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
+                    <extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
+                    <extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+                    					
                     <extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
                     					
                     <extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -147,7 +159,7 @@
                         						
                         <toolChain id="cdt.managedbuild.toolchain.gnu.cross.exe.release.249423308" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.release">
                             							
-                            <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1684810216" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
+                            <targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE;org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.Cygwin_PE;org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1684810216" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
                             							
                             <builder buildPath="${workspace_loc:/01_hello_sdl}/Release" id="cdt.managedbuild.builder.gnu.cross.1480315452" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
                             							

@@ -54,12 +54,21 @@ int main(int argc, char *argv[]) {
 		updateColor();
 
 		int quit = 1;
+		// Структура для хранения информации о событии
 		SDL_Event event;
-		while (quit != 0) {
+		// Основной цикл программы, выход из которого происходит при
+		// появлении события выхода (от ОС или по нажатию ESC)
+		while (quit == 0) {
+			// Ждём появления события
 			while (SDL_PollEvent(&event) != 0) {
+				// При его появлении проверяем тип
 				if (event.type == SDL_QUIT)
-					quit = 0;
+					// Если событие выхода (сигнал от ОС, что приложение
+					// нужно завершить), меняем флаг выхода
+					quit = 1;
 				else if (event.type == SDL_KEYDOWN) {
+					// Если это нажатие на клавишу клавиатуры, смотрим код
+					// нажатой клавиши
 					switch (event.key.keysym.sym) {
 					case SDLK_UP:
 						if (greylevel < 0xFF) greylevel = greylevel + 10;
@@ -74,7 +83,8 @@ int main(int argc, char *argv[]) {
 						greylevel = 255;
 						break;
 					case SDLK_ESCAPE:
-						quit = 0;
+						// Нажата клавиша ESC, меняем флаг выхода
+						quit = 1;
 						break;
 					}
 				}
