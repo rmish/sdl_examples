@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 
 		updateColor();
 
-		int quit = 1;
+		int quit = 0;
 		// Структура для хранения информации о событии
 		SDL_Event event;
 		// Основной цикл программы, выход из которого происходит при
