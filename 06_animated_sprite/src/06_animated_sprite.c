@@ -163,7 +163,7 @@ int initSDL() {
 				success = 0;
 			}
 			// Получаем поверхность для рисования
-			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 			if (renderer == NULL) {
 				// выводим ошибку, если создать окно не удалось
 				printf("Renderer could not be created! SDL_Error: %s\n",
